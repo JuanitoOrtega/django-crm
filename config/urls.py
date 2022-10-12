@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
+from .views import home
+
 
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
-    path('leads/', include('leads.urls', namespace='leads')),
+    path('leads/', include('leads.urls')),
 ]
