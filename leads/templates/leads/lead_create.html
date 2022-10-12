@@ -4,12 +4,14 @@
           <div class="col-lg-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="card-title m-0"><i class="fas fa-funnel-dollar"></i> This is all of our leads</h5>
+                <h5 class="card-title m-0"><i class="fas fa-user-tag"></i> Vista detalle del lead</h5>
               </div>
               <div class="card-body">
-                
+                <p>This is: {{ lead.first_name }} {{ lead.first_name }}</p>
+                <p>This persons age: {{ lead.age }}</p>
+                <a href="/leads" class="btn btn-primary">Ir a lista de leads</a>
               </div>
             </div><!-- /.card -->
           </div>
           <!-- /.col-md-12 -->
-{% endblock %}
+{% endblock content %}

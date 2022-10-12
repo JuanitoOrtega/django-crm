@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Starter</title>
-
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -20,8 +19,23 @@
 
   {% include 'includes/sidebar.html' %}
 
-  {% block content %}
-  {% endblock %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    {% include 'includes/breadcrumb.html' %}
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
   {% include 'includes/tools.html' %}
 
@@ -32,7 +46,7 @@
       Creando algo genial
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2022. Todos los derechos reservados.
+    Copyright &copy; 2022. Todos los derechos reservados.
   </footer>
 </div>
 <!-- ./wrapper -->
