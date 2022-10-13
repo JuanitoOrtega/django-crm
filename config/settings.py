@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'crm',
-        'USER': 'juanitodev',
+        'USER': 'jortega',
         # 'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': 5432,
@@ -123,61 +123,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / 'static/'
 ]
 
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = "media_root"
-# STATIC_ROOT = "static_root"
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = 'static_root'
 
 AUTH_USER_MODEL = 'leads.User'
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# LOGIN_REDIRECT_URL = "/leads"
-# LOGIN_URL = "/login"
-# LOGOUT_REDIRECT_URL = "/"
-
-# CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-# CRISPY_TEMPLATE_PACK = 'tailwind'
-
-# if not DEBUG:
-#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#     SECURE_SSL_REDIRECT = True
-#     SESSION_COOKIE_SECURE = True
-#     CSRF_COOKIE_SECURE = True
-#     SECURE_BROWSER_XSS_FILTER = True
-#     SECURE_CONTENT_TYPE_NOSNIFF = True
-#     SECURE_HSTS_SECONDS = 31536000  # 1 year
-#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#     SECURE_HSTS_PRELOAD = True
-#     X_FRAME_OPTIONS = "DENY"
-
-#     ALLOWED_HOSTS = ["*"]
-
-#     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-#     EMAIL_HOST = env("EMAIL_HOST")
-#     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-#     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-#     EMAIL_USE_TLS = True
-#     EMAIL_PORT = env("EMAIL_PORT")
-#     DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'root': {
-#         'handlers': ['console'],
-#         'level': 'WARNING',
-#     },
-# }
-
-# TAILWIND_APP_NAME = 'theme'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
