@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'crm',
-        'USER': 'jortega',
+        'USER': 'juanitodev',
         # 'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': 5432,
@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'es-bo'
 
 TIME_ZONE = 'America/La_Paz'
 
@@ -129,6 +129,12 @@ STATICFILES_DIRS = [
 STATIC_ROOT = 'static_root'
 
 AUTH_USER_MODEL = 'leads.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_REDIRECT_URL = '/leads'
+
+LOGOUT_REDIRECT_URL = '/login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
