@@ -1,5 +1,9 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, UsernameField
 from leads.models import Lead
 from django.forms import *
+
+User = get_user_model()
 
 
 class LeadModelForm(ModelForm):
@@ -41,4 +45,18 @@ class LeadModelForm(ModelForm):
                     'class': 'form-control',
                 }
             ),
+        }
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username',)
+        field_classes = {'username': UsernameField}
+        widgets = {
+            'username': TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            )
         }

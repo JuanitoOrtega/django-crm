@@ -1,23 +1,35 @@
 from django.core.mail import send_mail
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from agents.mixins import OrganizerAndLoginRequiredMixin
 from .models import Lead
-from .forms import LeadModelForm
+from .forms import LeadModelForm, CustomUserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class SignupView(CreateView):
     template_name = 'registration/signup.html'
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
 
     def get_success_url(self):
         return reverse('login')
 
 
-class LeadListView(ListView):
+class LeadListView(LoginRequiredMixin, ListView):
     template_name = 'leads/list.html'
-    queryset = Lead.objects.all().order_by('-id')
     context_object_name = 'leads'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        # initial queryset of leads for the entire organization
+        if user.is_organizer:
+            queryset = Lead.objects.filter(organization=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organization=user.agent.organization)
+            # filter for the agent that is logged in
+            queryset = queryset.filter(agent__user=user)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,31 +38,29 @@ class LeadListView(ListView):
         return context
 
 
-# def lead_list(request):
-#     leads = Lead.objects.all()
-#     context = {
-#         'leads': leads,
-#         'subtitle': 'Leads',
-#     }
-#     return render(request, 'leads/list.html', context)
-
-
-class LeadDetailView(DetailView):
+class LeadDetailView(LoginRequiredMixin, DetailView):
     template_name = 'leads/detail.html'
-    queryset = Lead.objects.all()
     context_object_name = 'lead'
 
+    def get_queryset(self):
+        user = self.request.user
 
-# def lead_detail(request, pk):
-#     lead = Lead.objects.get(id=pk)
-#     context = {
-#         'lead': lead,
-#         'title': 'Lead'
-#     }
-#     return render(request, 'leads/detail.html', context)
+        # initial queryset of leads for the entire organization
+        if user.is_organizer:
+            queryset = Lead.objects.filter(organization=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organization=user.agent.organization)
+            # filter for the agent that is logged in
+            queryset = queryset.filter(agent__user=user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Leads'
+        return context
 
 
-class LeadCreateView(CreateView):
+class LeadCreateView(OrganizerAndLoginRequiredMixin, CreateView):
     template_name = 'leads/create.html'
     form_class = LeadModelForm
 
@@ -73,24 +83,13 @@ class LeadCreateView(CreateView):
         return context
 
 
-# def lead_create(request):
-#     form = LeadModelForm()
-#     if request.method == 'POST':
-#         form = LeadModelForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('leads:lead_list')
-#     context = {
-#         'form': form,
-#         'subtitle': 'Crear nuevo lead',
-#     }
-#     return render(request, 'leads/create.html', context)
-
-
-class LeadUpdateView(UpdateView):
+class LeadUpdateView(OrganizerAndLoginRequiredMixin, UpdateView):
     template_name = 'leads/update.html'
-    queryset = Lead.objects.all()
     form_class = LeadModelForm
+
+    def get_queryset(self):
+        user = self.request.user
+        return Lead.objects.filter(organization=user.userprofile)
 
     def get_success_url(self):
         return reverse('leads:lead_list')
@@ -102,25 +101,12 @@ class LeadUpdateView(UpdateView):
         return context
 
 
-# def lead_update(request, pk):
-#     lead = Lead.objects.get(id=pk)
-#     form = LeadModelForm(instance=lead)
-#     if request.method == 'POST':
-#         form = LeadModelForm(request.POST, instance=lead)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('leads:lead_list')
-#     context = {
-#         'form': form,
-#         'lead': lead,
-#         'subtitle': 'Editar lead',
-#     }
-#     return render(request, 'leads/update.html', context)
-
-
-class LeadDeleteView(DeleteView):
+class LeadDeleteView(OrganizerAndLoginRequiredMixin, DeleteView):
     template_name = 'leads/delete.html'
-    queryset = Lead.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        return Lead.objects.filter(organization=user.userprofile)
 
     def get_success_url(self):
         return reverse('leads:lead_list')
@@ -130,9 +116,3 @@ class LeadDeleteView(DeleteView):
         context['title'] = 'Leads'
         context['subtitle'] = 'Eliminar lead'
         return context
-
-
-# def lead_delete(request, pk):
-#     lead = Lead.objects.get(id=pk)
-#     lead.delete()
-#     return redirect('leads:lead_list')

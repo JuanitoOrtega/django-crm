@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title m-0"><i class="fas fa-user-plus"></i> {{ subtitle }}</h5>
+                        </div>
+                        <!-- /.card-header -->
+                        <form method="post">
+                            <div class="card-body">
+                                {% csrf_token %}
+                                {% for field in form.visible_fields %}
+                                    <div class="form-group">
+                                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a type="button" href="{% url 'agents:agent_list' %}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+{% endblock %}

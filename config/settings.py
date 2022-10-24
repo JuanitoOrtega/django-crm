@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config as env
 
-SECRET_KEY = 'django-insecure-37c2&n@)fh!@s1vroa06u&*gu_qg@z(drno_95tex8m1@p5!!#'
 
-DEBUG = True
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG', cast=bool, default=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     
     # Local apps
     'leads',
+    'agents',
 ]
 
 MIDDLEWARE = [
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'crm',
-        'USER': 'juanitodev',
-        # 'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        # 'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT', cast=int),
     }
 }
 
@@ -129,11 +129,9 @@ STATICFILES_DIRS = [
 STATIC_ROOT = 'static_root'
 
 AUTH_USER_MODEL = 'leads.User'
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 LOGIN_REDIRECT_URL = '/leads'
-
+LOGIN_URL = '/login'
 LOGOUT_REDIRECT_URL = '/login'
 
 # Default primary key field type

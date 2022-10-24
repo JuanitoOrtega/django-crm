@@ -1,28 +1,15 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Registration Page (v2)</title>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
-</head>
-<body class="hold-transition register-page">
-<div class="register-box">
-    <div class="card card-outline card-primary">
-        <div class="card-header text-center">
-            <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
-        </div>
-        <div class="card-body">
-            <p class="login-box-msg">Register a new membership</p>
+{% extends 'registration/base.html' %}
 
+{% block content %}
+<div class="register-box">
+    {% if request.user.is_authenticated %}
+    <p>Ya tienes una sesión abierta, si no eres <b>{{ request.user.username }}</b>, puedes cerrar sesión haciendo clic <a href="{% url 'logout' %}">aquí</a>.</p>
+    <p>Volver a la <a href="{% url 'home' %}">página de inicio</a>.</p>
+    {% else %}
+    <div class="card card-outline card-primary">
+        {% include 'registration/includes/logo.html' %}
+        <div class="card-body">
+            <p class="login-box-msg">Registrar una nueva cuenta.</p>
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -46,14 +33,7 @@
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
+    {% endif %}
 </div>
 <!-- /.register-box -->
-
-<!-- jQuery -->
-<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-<!-- Bootstrap 4 -->
-<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'js/adminlte.min.js' %}"></script>
-</body>
-</html>
+{% endblock %}
